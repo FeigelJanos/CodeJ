@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "CodeJ backend",
+  "main": "index.js",
+  "scripts": {
+    "start-dev": "env NODE_ENV=dev nodemon index.js",
+    "test": "jest"
+  },
+  "author": "Feigel Janos",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
+    "chalk": "^4.0.0",
+    "crypto-random-string": "^3.2.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.4.6",
+    "nodemon": "^2.0.4",
+    "pg": "^7.18.2"
+  },
+  "devDependencies": {
+    "jest": "^25.5.4"
+  }
+}
