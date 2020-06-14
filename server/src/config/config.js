@@ -11,6 +11,13 @@ const config = {
     port: process.env.DB_PORT,
     database: process.env.DB_NAME,
   },
+  mongo: {
+    user: process.env.MONGO_USER,
+    password: process.env.MONGO_PASSWORD,
+    host: process.env.MONGO_HOST,
+    port: process.env.MONGO_PORT,
+    database: process.env.MONGO_DB_NAME,
+  },
   mail: {
     host: process.env.MAIL_HOST,
     port: process.env.MAIL_PORT,

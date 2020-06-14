@@ -1,4 +1,4 @@
-const startupQueryList = [
+const startupSQLQueryList = [
   {
     query: `CREATE TABLE IF NOT EXISTS users(user_id serial primary key, email varchar(254) NOT NULL, user_name varchar(100) NOT NULL, password varchar(200) NOT NULL, activation_id varchar(20) NOT NULL, user_type char(3) NOT NULL, status varchar(10), activity json NOT NULL, register_date timestamp NOT NULL, update_date timestamp, storno_date timestamp)`,
     params: null,
@@ -46,4 +46,4 @@ const startupQueryList = [
   },
 ];
 
-module.exports = startupQueryList;
+module.exports = startupSQLQueryList;

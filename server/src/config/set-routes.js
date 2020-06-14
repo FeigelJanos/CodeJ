@@ -3,13 +3,16 @@ const verifyNameController = require("../controllers/verify-name/verify-name.con
 const registrationController = require("../controllers/registration/registration.controller");
 const userActivationController = require("../controllers/user-activation/user-activation.controller");
 const userReactivationController = require("../controllers/user-reactivation/user-reactivation.controller");
+const loginController = require("../controllers/login/login.controller");
+const session = require("express-session");
+const sessionObject = require("../services/session/session");
 
 module.exports = setRoutes;
 
 function setRoutes(app) {
   //GET home route
   app.get("/", async (req, res) => {
-    res.send("The server is working!");
+    res.send("Your homepage");
   });
 
   //Verify User email
@@ -33,13 +36,17 @@ function setRoutes(app) {
   });
 
   //Generate new activation url
-  app.post("/reactivate", (req, res) => {
+  app.post("/reactivate", async (req, res) => {
     await userReactivationController(req, res);
   });
 
+  //Session middleware
+  app.use(session(sessionObject));
+
   //Login User
-  app.post("/login", (req, res) => {
-    res.send("Your profile");
+  app.post("/login", async (req, res, next) => {
+    await loginController(req, res, next);
+    session();
   });
 
   //Logout User

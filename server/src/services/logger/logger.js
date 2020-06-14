@@ -1,9 +1,13 @@
 const chalk = require("chalk");
 const { inspect } = require("util");
+const { getCollection } = require("../../interfaces/mongo/get-db");
 
 const logger = exports;
 
 logger.log = function (message, context, level) {
+  //const logs = await getCollection("logs");
+  //logs.insertOne({ message: "Logged activity from homepage" });
+
   const timestamp = generateTimestamp();
   let contextString = "";
   if (context) {
