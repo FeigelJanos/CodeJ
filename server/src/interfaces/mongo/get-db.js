@@ -1,32 +1,47 @@
-const { mongo } = require("../../config/config");
+/*const { mongo } = require("../../config/config");
+const MongoClient = require("mongodb").MongoClient;
+const uri = `mongodb://${mongo.host}:${mongo.port}/${mongo.database}`;
+let db;
+
+function connectToServer(callback) {
+  MongoClient.connect(
+    urlMongo,
+    { useUnifiedTopology: true, useNewUrlParser: true },
+    function (err, client) {
+      db = client.db("auth");
+      return callback(err);
+    }
+  );
+}
+
+function getDb() {
+  return db;
+}
+
+module.exports = { connectToServer, getDb };
+
+/*const { mongo } = require("../../config/config");
 const mongoClient = require("mongodb").MongoClient(
   `mongodb://${mongo.host}:${mongo.port}/${mongo.database}`,
   { useUnifiedTopology: true }
 );
 
-async function getClient() {
-  const client = await mongoClient.connect().catch((err) => {
-    console.log(err);
-  });
-  return client;
-}
-
-async function getDb() {
-  const client = await mongoClient.connect().catch((err) => {
-    console.log(err);
-  });
-  const db = client.db(`${mongo.database}`);
-  console.log(db);
-  return db;
-}
-
-async function getCollection(collectionName) {
+async function runMongoTransaction(collectionName, transactionParams) {
   const client = await mongoClient.connect().catch((err) => {
     console.log(err);
   });
   const db = client.db(`${mongo.database}`);
   const collection = db.collection(collectionName);
-  return collection;
+
+  switch (transactionParams.transactionType) {
+    case "insertOne":
+      await collection
+        .insertOne(transactionParams.query)
+        .catch((err) => console.error(err));
+      break;
+  }
+
+  client.close();
 }
 
-module.exports = { getClient, getDb, getCollection };
+module.exports = runMongoTransaction;*/

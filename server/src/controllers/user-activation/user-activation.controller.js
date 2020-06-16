@@ -1,6 +1,7 @@
 const updateActivatedUser = require("../../models/sql/update-activated-user.model");
 const selectUserToActivate = require("../../models/sql/select-user-to-activate.model");
 const { checkIsActivationWithinTime } = require("../../libs/utils/utils");
+const logger = require("../../services/logger/logger");
 
 module.exports = userActivationController;
 
@@ -16,6 +17,14 @@ async function userActivationController(req, res) {
     typeof userToActivate[0].update_date !== "object" ||
     typeof userToActivate[0].user_id !== "number"
   ) {
+    if (userToActivate !== false) {
+      logger.error(
+        `User selection error with userName: ${req.body.userName}`,
+        "user-activation.controller",
+        false,
+        3
+      );
+    }
     res
       .status(500)
       .send({ message: "An error occured, please try again later." });
@@ -49,6 +58,14 @@ async function userActivationController(req, res) {
       .status(200)
       .send({ message: "Your account has been succesfully activated!" });
   } else {
+    if (update !== false) {
+      logger.error(
+        `User activation update error with userName: ${req.body.userName} and userId ${userToActivate[0].user_id}`,
+        "user-activation.controller",
+        false,
+        3
+      );
+    }
     res
       .status(500)
       .send({ message: "An error occured, please try again later." });

@@ -7,6 +7,7 @@ const {
 const { comparePassword } = require("../../services/crypto/encrypt-decrypt");
 const updateReactivatedUser = require("../../models/sql/update-reactivated-user.model");
 const sendRepeatActivationEmail = require("../../models/email/repeat-activation-email");
+const logger = require("../../services/logger/logger");
 
 module.exports = userReactivationController;
 
@@ -25,6 +26,14 @@ async function userReactivationController(req, res) {
   );
 
   if (foundUser.length > 1 || foundUser === false) {
+    if (foundUser.length > 1) {
+      logger.error(
+        `Multiple users found to email: ${req.body.email} and userName: ${req.body.userName}`,
+        "user-reactivation.controller",
+        false,
+        3
+      );
+    }
     res
       .status(500)
       .send({ message: "An error occured, please try again later." });
@@ -62,6 +71,14 @@ async function userReactivationController(req, res) {
   );
 
   if (update !== 1) {
+    if (update !== false) {
+      logger.error(
+        `Multiple users updated with email: ${req.body.email} and userName: ${req.body.userName}`,
+        "user-reactivation.controller",
+        false,
+        3
+      );
+    }
     res
       .status(500)
       .send({ message: "An error occured, please try again later." });
@@ -75,18 +92,22 @@ async function userReactivationController(req, res) {
   );
 
   if (!mailSent) {
+    logger.error(
+      `Email unsuccesfully sen to email: ${req.body.email} with userName: ${req.body.userName}`,
+      "user-reactivation.controller",
+      false,
+      3
+    );
     res
       .status(500)
       .send({ message: "An error occured, please try again later." });
     return;
   }
 
-  res
-    .status(200)
-    .send({
-      message:
-        "Your reactivation was sucessfull! We sent a new activation email to your address.",
-    });
+  res.status(200).send({
+    message:
+      "Your reactivation was sucessfull! We sent a new activation email to your address.",
+  });
 }
 
 function getVerificationResult(reactivastionData) {

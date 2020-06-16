@@ -10,6 +10,9 @@ const sessionObject = require("../services/session/session");
 module.exports = setRoutes;
 
 function setRoutes(app) {
+  //Session middleware
+  app.use(session(sessionObject));
+
   //GET home route
   app.get("/", async (req, res) => {
     res.send("Your homepage");
@@ -40,13 +43,9 @@ function setRoutes(app) {
     await userReactivationController(req, res);
   });
 
-  //Session middleware
-  app.use(session(sessionObject));
-
   //Login User
-  app.post("/login", async (req, res, next) => {
-    await loginController(req, res, next);
-    session();
+  app.post("/login", async (req, res) => {
+    await loginController(req, res);
   });
 
   //Logout User

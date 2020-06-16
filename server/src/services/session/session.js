@@ -1,9 +1,8 @@
-const { getClient } = require("../../interfaces/mongo/get-db");
+const { mongo } = require("../../config/config");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const sessionStore = new MongoStore({
-  clientPromise: getClient(),
-  dbName: "codej",
+  url: `mongodb://${mongo.host}:${mongo.port}/${mongo.database}`,
 });
 const ONE_DAY = 1000 * 60 * 60 * 24;
 const sessionObject = {

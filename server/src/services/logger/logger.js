@@ -1,6 +1,6 @@
 const chalk = require("chalk");
 const { inspect } = require("util");
-const { getCollection } = require("../../interfaces/mongo/get-db");
+//const { getCollection } = require("../../interfaces/mongo/get-db");
 
 const logger = exports;
 

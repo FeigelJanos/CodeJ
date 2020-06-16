@@ -7,6 +7,7 @@ module.exports = {
   checkUserName,
   checkRegistration,
   checkReactivation,
+  checkLogin,
 };
 
 function checkEmail(email) {
@@ -73,4 +74,15 @@ function checkReactivation(reactivationData) {
   reactivationCheckResult.push(checkUserName(reactivationData.userName));
   reactivationCheckResult.push(checkPassword(reactivationData.password));
   return reactivationCheckResult;
+}
+
+function checkLogin(loginData) {
+  let loginCheckResult = [];
+  if (loginData.email) {
+    loginCheckResult.push(checkEmail(loginData.email));
+  } else if (loginData.userName) {
+    loginCheckResult.push(checkUserName(loginData.userName));
+  }
+  loginCheckResult.push(checkPassword(loginData.password));
+  return loginCheckResult;
 }

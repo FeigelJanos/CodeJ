@@ -5,6 +5,7 @@ const sendActivationEmail = require("../../models/email/activation-email");
 const selectUserByNameOrEmail = require("../../models/sql/select-user-by-name-or-email.model");
 const { generateVerificationResponse } = require("../../libs/utils/utils");
 const { checkRegistration } = require("../../libs/santitize/check-input.lib");
+const logger = require("../../services/logger/logger");
 
 module.exports = registrationController;
 
@@ -55,6 +56,12 @@ async function registrationController(req, res) {
   );
 
   if (!mailSent) {
+    logger.error(
+      `Error at sending activation email to: ${req.body.email} for userName: ${req.body.userName}`,
+      "registration.controller",
+      false,
+      3
+    );
     res
       .status(500)
       .send({ message: "An error occured, please try again later." });
