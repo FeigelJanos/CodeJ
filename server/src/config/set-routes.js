@@ -4,15 +4,14 @@ const registrationController = require("../controllers/registration/registration
 const userActivationController = require("../controllers/user-activation/user-activation.controller");
 const userReactivationController = require("../controllers/user-reactivation/user-reactivation.controller");
 const loginController = require("../controllers/login/login.controller");
+const logoutController = require("../controllers/logout/logout.controller");
+
 const session = require("express-session");
 const sessionObject = require("../services/session/session");
 
 module.exports = setRoutes;
 
 function setRoutes(app) {
-  //Session middleware
-  app.use(session(sessionObject));
-
   //GET home route
   app.get("/", async (req, res) => {
     res.send("Your homepage");
@@ -43,14 +42,17 @@ function setRoutes(app) {
     await userReactivationController(req, res);
   });
 
+  //Session middleware
+  app.use(session(sessionObject));
+
   //Login User
   app.post("/login", async (req, res) => {
     await loginController(req, res);
   });
 
   //Logout User
-  app.post("/logout", (req, res) => {
-    res.send("Your profile");
+  app.post("/logout", async (req, res) => {
+    await logoutController(req, res);
   });
 
   app.get("/profile", (req, res) => {

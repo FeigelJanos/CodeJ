@@ -9,6 +9,14 @@ const session = require("express-session");
 module.exports = loginController;
 
 async function loginController(req, res) {
+  if (
+    (req.session.userId && req.session.userId.length > 0) ||
+    (req.session.userName && req.session.userName.length > 0) ||
+    (req.session.role && req.session.role.length > 0)
+  ) {
+    res.status(400).send({ message: "Already logged in." });
+    return;
+  }
   const verificationResponse = getLoginResult(req.body);
 
   if (verificationResponse !== "Data is formally correct") {
@@ -49,9 +57,9 @@ async function loginController(req, res) {
     return;
   }
 
-  const passwordMatches = comparePassword(
+  const passwordMatches = await comparePassword(
     req.body.password,
-    selectedUser[0].password
+    selectedUser.rows[0].password
   );
 
   if (!passwordMatches) {
@@ -59,8 +67,9 @@ async function loginController(req, res) {
     return;
   }
 
-  req.session.userId = `${selectedUser[0].user_id}`;
-  req.session.userName = `${selectedUser[0].user_name}`;
+  req.session.userId = `${selectedUser.rows[0].user_id}`.trim();
+  req.session.userName = `${selectedUser.rows[0].user_name}`.trim();
+  req.session.role = `${selectedUser.rows[0].user_type}`.trim();
 
   res.status(200).send({ message: "Succesfull login" });
 }

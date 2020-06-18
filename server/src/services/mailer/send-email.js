@@ -19,6 +19,10 @@ async function sendEmail(mailOptions) {
     return false;
   });
 
-  logger.log("Email sent with: " + info, "send-email.js", 1);
-  return true;
+  if (info === false) {
+    return false;
+  } else {
+    logger.log("Email sent with: " + info, "send-email.js", 1);
+    return true;
+  }
 }

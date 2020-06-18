@@ -1,6 +1,6 @@
 const startupSQLQueryList = [
   {
-    query: `CREATE TABLE IF NOT EXISTS users(user_id serial primary key, email varchar(254) NOT NULL, user_name varchar(100) NOT NULL, password varchar(200) NOT NULL, activation_id varchar(20) NOT NULL, user_type char(3) NOT NULL, status varchar(10), activity json NOT NULL, register_date timestamp NOT NULL, update_date timestamp, storno_date timestamp)`,
+    query: `CREATE TABLE IF NOT EXISTS users(user_id serial primary key, email varchar(254) NOT NULL, user_name varchar(100) NOT NULL, password varchar(200) NOT NULL, activation_id varchar(20) NOT NULL, user_type char(20) NOT NULL, status varchar(10), activity json NOT NULL, register_date timestamp NOT NULL, update_date timestamp, storno_date timestamp)`,
     params: null,
     name: "users",
   },
@@ -25,14 +25,24 @@ const startupSQLQueryList = [
     name: "practice_tasks",
   },
   {
-    query: `CREATE TABLE IF NOT EXISTS lessons(lesson_id serial primary key, lesson_name varchar(150) NOT NULL, topic varchar(30) NOT NULL, language varchar(5) NOT NULL, level varchar(1) NOT NULL, video_url varchar(250), version integer NOT NULL, text_id integer, tags text[] NOT NULL, quiz_id integer, practice_tasks text[], likes integer, dislikes integer, create_date timestamp NOT NULL, update_date timestamp, storno_date timestamp, FOREIGN KEY (text_id) REFERENCES lesson_texts(lesson_text_id), FOREIGN KEY (quiz_id) REFERENCES quizes(quiz_id))`,
+    query: `CREATE TABLE IF NOT EXISTS lessons_topics(topic_id serial primary key, topic_name varchar(30), lessons integer[], lessons_count integer,  update_date timestamp, storno_date timestamp)`,
+    params: null,
+    name: "lessons_topics",
+  },
+  {
+    query: `CREATE TABLE IF NOT EXISTS lessons(lesson_id serial primary key, lesson_name varchar(150) NOT NULL, topic integer NOT NULL, language varchar(5) NOT NULL, level varchar(1) NOT NULL, video_url varchar(250), version integer NOT NULL, text_id integer, tags text[] NOT NULL, quiz_id integer, practice_tasks integer[], likes integer, dislikes integer, create_date timestamp NOT NULL, update_date timestamp, storno_date timestamp, FOREIGN KEY (text_id) REFERENCES lesson_texts(lesson_text_id), FOREIGN KEY (quiz_id) REFERENCES quizes(quiz_id), FOREIGN KEY (topic) REFERENCES lessons_topics(topic_id))`,
     params: null,
     name: "lessons",
   },
   {
-    query: `CREATE TABLE IF NOT EXISTS lesson_messages(lesson_message_id serial primary key, lesson_id integer NOT NULL, message_text text NOT NULL, sender_id integer NOT NULL, FOREIGN KEY (sender_id) REFERENCES users(user_id))`,
+    query: `CREATE TABLE IF NOT EXISTS lesson_messages(lesson_message_id serial primary key, lesson_id integer NOT NULL, message_text text NOT NULL, sender_id integer NOT NULL, FOREIGN KEY (sender_id) REFERENCES users(user_id), FOREIGN KEY (lesson_id) REFERENCES lessons(lesson_id))`,
     params: null,
     name: "lesson_messages",
+  },
+  {
+    query: `CREATE TABLE IF NOT EXISTS lesson_connections(connection_id serial primary key, lesson_id integer NOT NULL, next_lessons integer[], deeper_lessons integer[], FOREIGN KEY (lesson_id) REFERENCES lessons(lesson_id))`,
+    params: null,
+    name: "lesson_connections",
   },
   {
     query: `CREATE TABLE IF NOT EXISTS user_lessons(user_lessons_id serial primary key, user_id integer NOT NULL, lesson_list_beginner json, lesson_list_intermediate json, lesson_list_expert json, projects_completed json, certificates json, update_date timestamp, storno_date timestamp, lessons_liked integer[], lessons_disliked integer[], FOREIGN KEY (user_id) REFERENCES users(user_id))`,

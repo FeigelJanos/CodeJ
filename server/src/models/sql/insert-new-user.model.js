@@ -11,7 +11,7 @@ async function insertNewUser(registrationData, hashedPass, activationId) {
     registrationData.userName,
     hashedPass,
     activationId,
-    "n",
+    "user",
     "registered",
     "{}",
     now,
