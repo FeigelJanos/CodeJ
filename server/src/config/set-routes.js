@@ -42,17 +42,17 @@ function setRoutes(app) {
     await userReactivationController(req, res);
   });
 
+  //Logout User
+  app.post("/logout", async (req, res) => {
+    await logoutController(req, res);
+  });
+
   //Session middleware
   app.use(session(sessionObject));
 
   //Login User
   app.post("/login", async (req, res) => {
     await loginController(req, res);
-  });
-
-  //Logout User
-  app.post("/logout", async (req, res) => {
-    await logoutController(req, res);
   });
 
   app.get("/profile", (req, res) => {

@@ -4,6 +4,7 @@ const selectUsersByEmail = require("../../models/sql/select-users-by-email.model
 const selectUsersByUserName = require("../../models/sql/select-users-by-username.model");
 const logger = require("../../services/logger/logger");
 const { comparePassword } = require("../../services/crypto/encrypt-decrypt");
+const { EMPTY_PROGRESS } = require("../../config/nonenv-constants");
 const session = require("express-session");
 
 module.exports = loginController;
@@ -70,6 +71,7 @@ async function loginController(req, res) {
   req.session.userId = `${selectedUser.rows[0].user_id}`.trim();
   req.session.userName = `${selectedUser.rows[0].user_name}`.trim();
   req.session.role = `${selectedUser.rows[0].user_type}`.trim();
+  req.session.progress = EMPTY_PROGRESS;
 
   res.status(200).send({ message: "Succesfull login" });
 }

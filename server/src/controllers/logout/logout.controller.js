@@ -1,5 +1,5 @@
 const checkSession = require("../../libs/check-session/check-session.lib");
-const { USER_TYPES } = require("../../config/nonenv-constants");
+const saveProgress = require("../../libs/save-progress/save-progress.lib");
 
 module.exports = logoutController;
 
@@ -11,6 +11,7 @@ async function logoutController(req, res) {
     return;
   }
 
-  //User progress into db if req.progress
+  progressSaved = await saveProgress(req.session.progress, req.session.userId);
+
   //Remove session
 }
