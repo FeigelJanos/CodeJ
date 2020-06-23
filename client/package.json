@@ -1,0 +1,28 @@
+{
+  "name": "codej_front_end",
+  "version": "1.0.0",
+  "description": "Front-end for CodeJ website",
+  "main": "pages/index.js",
+  "dependencies": {
+    "next": "^9.4.4",
+    "react-dom": "^16.13.1",
+    "react": "^16.13.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FeigelJanos/CodeJ.git"
+  },
+  "author": "Feigel János",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FeigelJanos/CodeJ/issues"
+  },
+  "homepage": "https://github.com/FeigelJanos/CodeJ#readme"
+}
