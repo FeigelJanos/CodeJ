@@ -1,8 +1,8 @@
-module.exports = checkSession;
+module.exports = checkSession
 
-function checkSession(session) {
+function checkSession (session) {
   if (!session.userId && !session.userName && !session.role) {
-    return false;
+    return false
   }
-  return true;
+  return true
 }

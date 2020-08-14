@@ -1,21 +1,20 @@
 const { Pool } = require('pg')
-const {postgress} = require('../../config/config')
-const pool = new Pool( {
-    user: postgress.user,
-    password: postgress.password,
-    host: postgress.host,
-    port: postgress.port,
-    database: postgress.database
+const { postgress } = require('../../config/config')
+const pool = new Pool({
+  user: postgress.user,
+  password: postgress.password,
+  host: postgress.host,
+  port: postgress.port,
+  database: postgress.database
 })
 
 const logger = require('../../services/logger/logger')
 // the pool will emit an error on behalf of any idle clients
 // it contains if a backend error or network partition happens
 pool.on('error', (err, client) => {
-    console.error('Unexpected error on idle client', err)
-    process.exit(-1)
-  })
-
+  console.error('Unexpected error on idle client', err)
+  process.exit(-1)
+})
 
 module.exports = {
   query: async (text, params) => {
