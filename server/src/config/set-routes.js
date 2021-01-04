@@ -71,7 +71,7 @@ function setRoutes (app) {
     res.send('This is the forum')
   })
 
-  app.get('/admin', (req, res) => {
-    res.send('This is the forum')
+  app.get('/admin/create-course', (req, res) => {
+    res.send('This is the admin site')
   })
 }
